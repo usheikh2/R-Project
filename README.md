@@ -6,7 +6,7 @@ This is our Main Branch where we'll merge our final code for the pre-processing.
 
 -BEFORE DOING ANY WORK, make sure you "Pull" other team member's code to your computer. To do this, locate the "Pull" button in the Git window at the top-right screen of your RStudio. If asked, sign in using your Git Username and the password as your personal access token.
 
--When you want to share your changes to the code, you will need to "Push" your code into our repository. Press the "Push" button in the same Git window and sign in using your Git Username and the password as your personal access token.
+-When you want to share your changes to the code, you will need to commit & "Push" your code into our repository. Press the "Push" button in the same Git window and sign in using your Git Username and the password as your personal access token.
 
 
 
