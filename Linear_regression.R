@@ -4,8 +4,7 @@ library(readr)
 
 
 # decided to use spotify data 
-spotify_dataset <- read_csv(file = "spotify_dataset.csv")
-summary(spotify_dataset)
+
 install.packages("dplyr")
 library(dplyr)
 install.packages("lattice")
@@ -13,15 +12,12 @@ library(lattice)
 install.packages("caret")
 library(caret)
 
-typeof(spotify_dataset)
-spotify_dataset <- as.data.frame(spotify_dataset)
+spotify_dataset <- read_csv(file = "spotify_dataset.csv")
 
-library(tidyverse)
-is_tibble(spotify_dataset)
+summary(spotify_dataset)
 
 colnames(spotify_dataset)
 
-summary(spotify_dataset)
 streams <- spotify_dataset$Streams
 
 histogram(spotify_dataset$Streams)
