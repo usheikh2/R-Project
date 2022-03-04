@@ -23,7 +23,7 @@ spotifyTest <- spotify[trainingRows,]
 spotifyTrain <- spotify[-trainingRows,]
 
 ## Fit First Tree with all Predictors
-fit <- rpart(Highest.Charting.Position ~ ., method = "anova", data = spotifyTrain, control=rpart.control(cp=0.01,maxdepth=10))
+fit <- rpart(Highest.Charting.Position ~ ., method = "anova", data = spotifyTrain, control=rpart.control(cp=0.01,maxdepth=30), preProc = c("center", "scale"))
 rpart.plot(fit, main="Classification Tree Model 1")
 
 # Test Model 
@@ -44,9 +44,18 @@ ggplot2::ggplot(df2) +
   scale_fill_grey() +
   theme_bw()
 
+#Prune Model
+pfit<- prune(fit, cp = fit$cptable[which.min(fit$cptable[,"xerror"]),"CP"])
+rpart.plot(pfit, main="Classification Tree Model 1 Post Prune")
+pred <- predict(pfit, spotifyTest) 
+postResample(pred = pred, obs = spotifyTest$Highest.Charting.Position)
+pfit
+
+
 ##Fit model with only the best predictor(streams)
 
-fit2 <- rpart(Highest.Charting.Position ~ Streams, method = "anova", data = spotifyTrain)
+fit2 <- rpart(Highest.Charting.Position ~ Streams, method = "anova", data = spotifyTrain, control=rpart.control(cp=0.01,maxdepth=30))
+fit2 <- prune(fit2, cp = fit$cptable[which.min(fit$cptable[,"xerror"]),"CP"])
 rpart.plot(fit2, main="Classification Tree Model 2")
 
 #Test model 
@@ -55,7 +64,8 @@ postResample(pred = pred, obs = spotifyTest$Highest.Charting.Position)
 
 ##Fit Model with top 3 Predictors
 
-fit3 <- rpart(Highest.Charting.Position ~ Streams + Artist.Followers + Popularity, method = "anova", data = spotifyTrain)
+fit3 <- rpart(Highest.Charting.Position ~ Streams + Artist.Followers + Popularity, method = "anova", data = spotifyTrain, control=rpart.control(cp=0.01,maxdepth=30))
+fit3 <- prune(fit3, cp = fit$cptable[which.min(fit$cptable[,"xerror"]),"CP"])
 rpart.plot(fit3, main="Classification Tree Model 3")
 
 # Test Model 
