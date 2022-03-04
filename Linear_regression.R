@@ -76,10 +76,10 @@ featurePlot(trainPredictors, trainHiCharPosit,
 solPCA <- prcomp(trainPredictors, center = TRUE, scale. = TRUE)
 percentVariancePCA = solPCA$sd^2/sum(solPCA$sd^2)*100
 plot(percentVariancePCA, xlab="Components", ylab="Percentage of Total Variance",
-     type="l", main="Scree Plot of PCA Analysis")
+     type="l", main="Scree Plot of PCA")
 
+#correlation plot for predictors
 corrplot(cor(trainPredictors), order = "hclust", tl.cex = .8)
-
 
 
 ### Section 6.2 Linear Regression
@@ -97,3 +97,19 @@ lmFitNumTimesChar = lm(trainHiCharPosit ~trainPredictors$'Number of Times Charte
 summary(lmFitNumTimesChar)
 #Rsquared values are very bad.
 
+#Estimate the test set performance
+lmPred1 <- predict(lmFitAllPredictors, testPredictors)
+head(lmPred1)
+
+#Resampling estimate of performance
+ctrl <- trainControl(method = "cv", number = 10)
+set.seed(1)
+lmFit1 <- train(x = trainPredictors, y = trainHiCharPosit, method = "lm", trControl = ctrl)
+lmFit1
+#RMSE 48.24899, Rsquared 0.3259047, MAE 40.3786
+
+xyplot(trainHiCharPosit~ predict(lmFit1), type = c("p", "g"),
+       xlab = "Predicted", ylab = "Observed")
+
+xyplot(resid(lmFit1)~ predict(lmFit1), type = c("p", "g"),
+       xlab = "Predicted", ylab = "Residuals")
