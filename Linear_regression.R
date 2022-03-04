@@ -1,16 +1,8 @@
-setwd("~/DAEN Info/OR568/Project_preliminary") #set directory to folder containing data
-
-library(readr)
-
-
-# decided to use spotify data 
-
-install.packages("dplyr")
-library(dplyr)
-install.packages("lattice")
-library(lattice)
-install.packages("caret")
+setwd("~/DAEN Info/OR568/OR568project") #set directory to folder containing data
+#install.packages
 library(caret)
+library(readr)
+library(corrplot)
 
 spotify_dataset <- read_csv(file = "spotify_dataset.csv")
 
@@ -20,8 +12,6 @@ colnames(spotify_dataset)
 
 streams <- spotify_dataset$Streams
 
-histogram(spotify_dataset$Streams)
-histogram(spotify_dataset$`Highest Charting Position`)
 
 #Remove rows with na
 
@@ -53,19 +43,6 @@ ggplot(SPFY, aes(x = `Artist Followers`, y = `Highest Charting Position`)) +
   labs(x = "Artist Followers",
        title = "Highest Charting Position by Streams") + hw
 
-histogram(SPFY$Popularity)
-histogram(SPFY$Tempo)
-histogram(SPFY$Danceability)
-histogram(SPFY$Streams)
-histogram(SPFY$`Artist Followers`)
-histogram(SPFY$Energy)
-histogram(SPFY$Loudness)
-histogram(SPFY$Speechiness)
-histogram(SPFY$Acousticness)
-histogram(SPFY$Liveness)
-histogram(SPFY$`Duration (ms)`)
-histogram(SPFY$Valence)
-histogram(SPFY$`Number of Times Charted`)
 
 #remove non-numeric columns and index column
 numSpotify_dataset <- na.omit(spotify_dataset[,-c(1,4,5,7,9,10,11,12,23)])
@@ -78,15 +55,11 @@ HiCharPosit <- na.omit(numSpotify_dataset$`Highest Charting Position`)
 
 summary(HiCharPosit)
 
-histogram(TransNumSpDs$Speechiness)
-# can't tell a difference in the transformation
-
 #split the data
 #start with a partition designation
 set.seed(1)
 trainingRows <- createDataPartition(HiCharPosit, p = 0.8, list = FALSE)
-head(trainingRows)
-tail(trainingRows)
+
 
 #subset into training and test for predictors and highest charting position
 trainPredictors <- TransPredictors[trainingRows, ]
@@ -94,7 +67,7 @@ trainHiCharPosit <- HiCharPosit[trainingRows]
 testPredictors <- TransPredictors[-trainingRows,]
 testHiCharPosit <- HiCharPosit[-trainingRows]
 
-### Copied code from course reference R files
+### Copied code from OR568 course reference R files
 
 featurePlot(trainPredictors, trainHiCharPosit, 
             between = list(x = 1, y = 1), type = c("g", "p", "smooth"), labels = rep("", 2))
