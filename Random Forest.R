@@ -18,13 +18,16 @@ pctmissing = (totalmissing*100) / totalcells
 pctmissing
 spotify_complete = na.omit(spotify)
 spotify_complete
+
 # Genre and Weeks Charted excluded from original plans
 X = spotify_complete[ , c("Artist.Followers", "Energy",
                          "Streams", "Popularity", "Danceability", 
                          "Acousticness", "Loudness", "Speechiness",
-                         "Tempo", "Valence")]
+                         "Tempo", "Valence", "Duration..ms.", "Liveness", 
+                         "Number.of.Times.Charted")]
+spotify_complete$Highest.Charting.Position = as.factor(spotify_complete$Highest.Charting.Position)
+str(spotify_complete)
 Y = spotify_complete["Highest.Charting.Position"]
-
 
 # Training set and test set data split
 set.seed(600)
