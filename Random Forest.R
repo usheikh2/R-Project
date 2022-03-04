@@ -53,3 +53,7 @@ rf_y
 # Performance eval
 rfPR = postResample( pred = rf_y, obs = YTest)
 rfPR
+
+# Variable Importance Plot 
+varImpPlot(rfspot) 
+
