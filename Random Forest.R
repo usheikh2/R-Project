@@ -48,7 +48,7 @@ trainData = data.frame( x = XTrain, y = YTrain )
 # Fit RF
 
 y = unlist(Y)
-rfspot = randomForest( y ~ ., data = trainData, ntree = 100, corr.bias = TRUE )
+rfspot = randomForest( y ~ ., data = trainData, ntree = 17, corr.bias = TRUE )
 rfspot
 
 # Predict
