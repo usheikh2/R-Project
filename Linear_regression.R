@@ -113,3 +113,8 @@ xyplot(trainHiCharPosit~ predict(lmFit1), type = c("p", "g"),
 
 xyplot(resid(lmFit1)~ predict(lmFit1), type = c("p", "g"),
        xlab = "Predicted", ylab = "Residuals")
+# Try fitting a logistic Regression Model
+logisticReg <- train(x = trainPredictors, y = trainHiCharPosit, method = "glm", trControl = ctrl)
+logisticReg
+
+# RMSE 48.24561, Rsquared 0.3143689, MAE 40.41483
